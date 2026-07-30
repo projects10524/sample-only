@@ -1,11 +1,443 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Rivera — Maker & Developer</title>
+<style>
+  :root {
+    --ink: #f3f1ea;
+    --navy: #14213a;
+    --navy-deep: #0d1526;
+    --gold: #d1a54a;
+    --gold-soft: #e8c98a;
+    --line: rgba(243, 241, 234, 0.14);
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --font-mono: 'Courier New', Courier, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy-deep);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  ::selection { background: var(--gold); color: var(--navy-deep); }
+
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(13, 21, 38, 0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .brand {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: var(--gold-soft);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  /* Hero */
+  .hero {
+    padding: 120px 32px 100px;
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: inline-block;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.08;
+    max-width: 780px;
+    letter-spacing: -0.01em;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-soft);
+  }
+
+  .hero p.lede {
+    margin-top: 28px;
+    max-width: 540px;
+    font-size: 17px;
+    color: rgba(243, 241, 234, 0.72);
+  }
+
+  .hero-actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 13px 26px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy-deep);
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { background: var(--gold-soft); transform: translateY(-1px); }
+
+  .btn-ghost {
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+
+  .btn-ghost:hover { border-color: var(--gold); transform: translateY(-1px); }
+
+  /* Section shared */
+  section {
+    padding: 88px 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    font-weight: 400;
+    margin-bottom: 40px;
+    max-width: 600px;
+  }
+
+  /* Work grid */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .work-card {
+    background: var(--navy-deep);
+    padding: 32px;
+    transition: background 0.2s ease;
+  }
+
+  .work-card:hover { background: rgba(209, 165, 74, 0.06); }
+
+  .work-index {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(243, 241, 234, 0.4);
+    margin-bottom: 16px;
+  }
+
+  .work-card h3 {
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+
+  .work-card p {
+    font-size: 14.5px;
+    color: rgba(243, 241, 234, 0.62);
+    margin-bottom: 16px;
+  }
+
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 9px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    color: rgba(243, 241, 234, 0.65);
+  }
+
+  /* About */
+  .about-body {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 56px;
+  }
+
+  .about-body p {
+    font-size: 16px;
+    color: rgba(243, 241, 234, 0.75);
+    margin-bottom: 18px;
+    max-width: 480px;
+  }
+
+  .stat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .stat {
+    border-left: 2px solid var(--gold);
+    padding-left: 16px;
+  }
+
+  .stat .num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--gold-soft);
+    line-height: 1;
+  }
+
+  .stat .label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(243, 241, 234, 0.55);
+    margin-top: 6px;
+  }
+
+  /* Contact */
+  .contact-inner {
+    text-align: left;
+  }
+
+  .contact h2 { max-width: none; }
+
+  .contact-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .contact-email {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    color: var(--gold-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .contact-email:hover { border-color: var(--gold-soft); }
+
+  .contact-links {
+    display: flex;
+    gap: 22px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .contact-links a { text-decoration: none; opacity: 0.7; }
+  .contact-links a:hover { opacity: 1; }
+
+  footer {
+    padding: 32px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(243, 241, 234, 0.4);
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .work-grid { grid-template-columns: 1fr; }
+    .about-body { grid-template-columns: 1fr; }
+    .contact-row { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+</style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <p>This is live on GitHub Pages.</p>
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="#top">A · RIVERA</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <span class="hero-eyebrow">Product Engineer · Based in Manila</span>
+  <h1>I build small tools that quietly <em>make work easier.</em></h1>
+  <p class="lede">Alex Rivera — I design and ship web products, from early prototype to production. Currently building lightweight tools for independent teams.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#work">See the work</a>
+    <a class="btn btn-ghost" href="#contact">Get in touch</a>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-inner">
+    <span class="section-label">Selected Work</span>
+    <h2>A few things I've shipped recently.</h2>
+    <div class="work-grid">
+      <div class="work-card">
+        <div class="work-index">01</div>
+        <h3>Ledger</h3>
+        <p>A lightweight expense tracker for freelancers, built to replace a spreadsheet in under a minute.</p>
+        <div class="tags"><span class="tag">React</span><span class="tag">SQLite</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-index">02</div>
+        <h3>Fieldnote</h3>
+        <p>Offline-first notes app for researchers working without reliable connectivity.</p>
+        <div class="tags"><span class="tag">Swift</span><span class="tag">CRDT</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-index">03</div>
+        <h3>Portside</h3>
+        <p>A dashboard that turns shipping manifests into a single readable timeline.</p>
+        <div class="tags"><span class="tag">Vue</span><span class="tag">D3.js</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-index">04</div>
+        <h3>Quiet Hours</h3>
+        <p>A calendar overlay that blocks focus time automatically based on your workload.</p>
+        <div class="tags"><span class="tag">TypeScript</span><span class="tag">API</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-inner">
+    <span class="section-label">About</span>
+    <h2>Ten years of turning rough ideas into working software.</h2>
+    <div class="about-body">
+      <div>
+        <p>I started out fixing bugs in other people's codebases and ended up designing the products myself. These days I work across the stack, but I care most about the first five minutes of using something — whether it makes sense before you've read a single instruction.</p>
+        <p>Outside of client work, I write about tools and craft, and I'm slowly building a small library of open-source utilities for other independent developers.</p>
+      </div>
+      <div class="stat-list">
+        <div class="stat">
+          <div class="num">10+</div>
+          <div class="label">Years building products</div>
+        </div>
+        <div class="stat">
+          <div class="num">24</div>
+          <div class="label">Projects shipped</div>
+        </div>
+        <div class="stat">
+          <div class="num">6</div>
+          <div class="label">Open-source tools maintained</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-inner contact-inner">
+    <span class="section-label">Contact</span>
+    <h2>Have a project in mind?</h2>
+    <div class="contact-row">
+      <a class="contact-email" href="mailto:hello@example.com">hello@example.com</a>
+      <div class="contact-links">
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Twitter</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Alex Rivera. Built with plain HTML & CSS.
+</footer>
+
 </body>
 </html>
